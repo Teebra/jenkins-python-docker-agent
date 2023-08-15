@@ -4,9 +4,9 @@ FROM jenkins/inbound-agent:4.11-1 as jnlp
 # Use the Python image based on Ubuntu as the base image
 FROM python:latest
 
-# Install OpenJDK 11 JRE on the Python image based on Ubuntu
+# Install OpenJDK 11 JRE alternative on the Python image based on Ubuntu
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends openjdk-11-jre && \
+    apt-get install -y --no-install-recommends default-jre && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
