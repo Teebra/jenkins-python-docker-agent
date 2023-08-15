@@ -2,15 +2,10 @@
 FROM jenkins/inbound-agent:4.11-1 as jnlp
 
 # Use the Python image based on Ubuntu as the base image
-FROM python:3.8-buster
+FROM python:latest
 
-# Install OpenJDK 11 JRE from AdoptOpenJDK repository
+# Install OpenJDK 11 JRE on the Python image based on Ubuntu
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends gnupg && \
-    rm -rf /var/lib/apt/lists/* && \
-    echo "deb http://ppa.launchpad.net/openjdk-r/ppa/ubuntu bionic main" > /etc/apt/sources.list.d/openjdk.list && \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys DA1A4A13543B466853BAF164EB9B1D8886F44E2A && \
-    apt-get update && \
     apt-get install -y --no-install-recommends openjdk-11-jre && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -34,6 +29,12 @@ RUN set -ex && \
 
 # Install Docker on the Ubuntu-based image
 RUN apt-get update && apt-get install -y docker.io
+
+# Install Trivy for vulnerability scanning
+RUN apt-get update && apt-get install -y wget && \
+    wget https://github.com/aquasecurity/trivy/releases/download/v0.21.0/trivy_0.21.0_Linux-64bit.deb && \
+    dpkg -i trivy_0.21.0_Linux-64bit.deb && \
+    rm trivy_0.21.0_Linux-64bit.deb
 
 # Set the entry point to run the Jenkins agent
 ENTRYPOINT ["/usr/local/bin/jenkins-agent"]
