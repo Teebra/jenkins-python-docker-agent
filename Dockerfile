@@ -18,7 +18,7 @@ COPY --from=jnlp /usr/share/jenkins/agent.jar /usr/share/jenkins/agent.jar
 RUN set -ex && \
     apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends git && \  # Installing Git
+    apt-get install -y --no-install-recommends git && \
     apt-get install -y \
         python3 \
         python3-pip \
@@ -28,7 +28,7 @@ RUN set -ex && \
     rm -rf /var/lib/apt/lists/*
 
 # Install Docker on the Ubuntu-based image
-RUN apt-get update && apt-get install -y docker.io  # Installing Docker
+RUN apt-get update && apt-get install -y docker.io
 
 # Set the entry point to run the Jenkins agent
 ENTRYPOINT ["/usr/local/bin/jenkins-agent"]
