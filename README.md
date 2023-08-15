@@ -17,7 +17,7 @@ pipeline {
     }
 
     stages {
-        stage('Git Cloning') {
+        stage('python') {
             steps {
                 sh 'python --version'
                 sh 'pip --version'
